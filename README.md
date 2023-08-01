@@ -14,5 +14,5 @@
 11. [Category Theory for Programmers (часть 3)](https://www.youtube.com/playlist?list=PLbgaMIhjbmEn64WVX4B08B4h2rOtueWIL)
 12. [Функциональное программирование на языке Haskell (часть 2)](https://stepik.org/course/693/syllabus) 
 13. Lambda Calculus Interpreter
-14. Types and Programming Languages
+14. Types and Programming Languages (haskell impls -> https://github.com/zerokarmaleft/tapl-haskell)
 15. Parallel and Concurrent Programming in Haskell
