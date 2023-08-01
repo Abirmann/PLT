@@ -15,3 +15,4 @@
 12. [Функциональное программирование на языке Haskell (часть 2)](https://stepik.org/course/693/syllabus) 
 13. Lambda Calculus Interpreter
 14. Types and Programming Languages
+15. Parallel and Concurrent Programming in Haskell
