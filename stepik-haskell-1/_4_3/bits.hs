@@ -1,9 +1,10 @@
-data Bit = Zero | One
-data Sign = Minus | Plus
-data Z = Z Sign [Bit]
+data Bit = Zero | One    deriving (Read, Show)
+data Sign = Minus | Plus deriving (Read, Show)
+data Z = Z Sign [Bit]    deriving (Read, Show)
+
 
 add :: Z -> Z -> Z
-add = undefined
+add = const
 
 mul :: Z -> Z -> Z
 mul = undefined
