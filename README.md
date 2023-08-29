@@ -7,12 +7,12 @@ Practice
 4. Каты на Codewars
 5. Телеграмм бот для сбора ежедневной статистики
 6. Функциональное программирование на языке Haskell часть 2
-7. github apploed-fp-course (for those who want to know how to build larger applications with FP)
+7. github applyed-fp-course (for those who want to know how to build larger applications with FP)
 8. Write yourself a Scheme in 48 hours
 9. Lambda calculus interpreter
  
 
-Theory
+Theory (books and lectures)
 1. Types and Programming Languages (haskell impls -> https://github.com/zerokarmaleft/tapl-haskell)
 2. Учебник по Haskell
 3. Category Theory for Programmers lectures 1  
@@ -22,3 +22,6 @@ Theory
 7. Advanced Topics in Types and Programming Languages
 8. Parallel and Concurrent Programming in Haskell
 
+Theory (papers)
+
+1. TODO
