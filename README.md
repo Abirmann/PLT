@@ -1,18 +1,24 @@
 ### План
 
-1. [Функциональное программирование на языке Haskell (часть 1)](https://stepik.org/course/75/syllabus)
-   [[Stepik-Haskell1-конспект] (in progress)
-2. Каты на Code Wars
-3. [Учебник по Haskell](https://anton-k.github.io/ru-haskell-book/book/home.html)
-4. Еще каты на Code Wars
-5. [Category Theory for Programmers (часть 1)](https://www.youtube.com/playlist?list=PLbgaMIhjbmEnaH_LTkxLI7FMa2HsnawM_)
-6. Поиск проектов с открытым кодом и их изучение
-7. Разбор статьи [On Understanding Types, Data Abstraction, and Polymorphism](http://lucacardelli.name/Papers/OnUnderstanding.A4.pdf)
-8. [Write Yourself a Scheme in 48 Hours](https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours)
-9. [Category Theory for Programmers (часть 2)](https://www.youtube.com/playlist?list=PLbgaMIhjbmElia1eCEZNvsVscFef9m0dm)
-10. Телеграм бот для сбора ежедневной статистики
-11. [Category Theory for Programmers (часть 3)](https://www.youtube.com/playlist?list=PLbgaMIhjbmEn64WVX4B08B4h2rOtueWIL)
-12. [Функциональное программирование на языке Haskell (часть 2)](https://stepik.org/course/693/syllabus) 
-13. Lambda Calculus Interpreter
-14. Types and Programming Languages (haskell impls -> https://github.com/zerokarmaleft/tapl-haskell)
-15. Parallel and Concurrent Programming in Haskell
+Practice
+1. Функциональное программирование на языке Haskell 
+2. 99 Haskell Problems
+3. Haskell exercises on Exercism (90 problems)
+4. Каты на Codewars
+5. Телеграмм бот для сбора ежедневной статистики
+6. Функциональное программирование на языке Haskell часть 2
+7. github apploed-fp-course (for those who want to know how to build larger applications with FP)
+8. Write yourself a Scheme in 48 hours
+9. Lambda calculus interpreter
+ 
+
+Theory
+1. Types and Programming Languages (haskell impls -> https://github.com/zerokarmaleft/tapl-haskell)
+2. Учебник по Haskell
+3. Category Theory for Programmers lectures 1  
+4. Category Theory for Programmers lectures 2  
+5. Category Theory for Programmers lectures 3
+6. Category Theory for Programmers book
+7. Advanced Topics in Types and Programming Languages
+8. Parallel and Concurrent Programming in Haskell
+
