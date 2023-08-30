@@ -17,10 +17,15 @@ add (Z s1 b1) (Z s2 b2)
         sameSignBitsAdd [] [] Zero = []
         sameSignBitsAdd [] [] One = [One]
 
-        sameSignBitsAdd (b1:b1s) [] prevC = r : (sameSignBitsAdd b1s [] c) 
+        sameSignBitsAdd (bb1:bb1s) [] prevCC = rr : (sameSignBitsAdd bb1s [] cc) 
+            where
+                rr = fst $ addBitWithCarry bb1 prevCC Zero 
+                cc = snd $ addBitWithCarry bb1 prevCC Zero
+
+
         sameSignBitsAdd [] (b2:b2s) prevC = r : (sameSignBitsAdd b2s [] c)
             where
-                r = fst $ addBitWithCarry b1 prevC Zero 
+                r = fst $ addBitWithCarry b2 prevC Zero 
                 c = snd $ addBitWithCarry b2 prevC Zero
 
         sameSignBitsAdd (b1:b1s) (b2:b2s) prevC = r : (sameSignBitsAdd b1s b2s c)
