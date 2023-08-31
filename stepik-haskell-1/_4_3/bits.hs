@@ -17,16 +17,15 @@ add (Z s1 b1) (Z s2 b2)
         sameSignBitsAdd [] [] Zero = []
         sameSignBitsAdd [] [] One = [One]
 
-        sameSignBitsAdd (bb1:bb1s) [] prevCC = rr : (sameSignBitsAdd bb1s [] cc) 
+        sameSignBitsAdd (b:bs) [] prevC = r : (sameSignBitsAdd bs [] c) 
             where
-                rr = fst $ addBitWithCarry bb1 prevCC Zero 
-                cc = snd $ addBitWithCarry bb1 prevCC Zero
+                r = fst $ addBitWithCarry b prevC Zero 
+                c = snd $ addBitWithCarry b prevC Zero
 
-
-        sameSignBitsAdd [] (b2:b2s) prevC = r : (sameSignBitsAdd b2s [] c)
+        sameSignBitsAdd [] (b:bs) prevC = r : (sameSignBitsAdd bs [] c)
             where
-                r = fst $ addBitWithCarry b2 prevC Zero 
-                c = snd $ addBitWithCarry b2 prevC Zero
+                r = fst $ addBitWithCarry b prevC Zero 
+                c = snd $ addBitWithCarry b prevC Zero
 
         sameSignBitsAdd (b1:b1s) (b2:b2s) prevC = r : (sameSignBitsAdd b1s b2s c)
             where 
@@ -34,9 +33,12 @@ add (Z s1 b1) (Z s2 b2)
                 c = snd $ addBitWithCarry b1 b2 prevC
 
         addBitWithCarry :: Bit -> Bit -> Bit -> (Bit, Bit)
-        addBitWithCarry One One c = (Zero, One)
-        addBitWithCarry One Zero c = (One, c)
-        addBitWithCarry Zero One c = (One, c)
+        addBitWithCarry One One One = (One, One)
+        addBitWithCarry One One Zero = (Zero, One)
+        addBitWithCarry One Zero One = (Zero, One)
+        addBitWithCarry One Zero Zero = (One, Zero)
+        addBitWithCarry Zero One One = (Zero, One)
+        addBitWithCarry Zero One Zero = (One, Zero)
         addBitWithCarry Zero Zero c = (Zero, c)
 
 
