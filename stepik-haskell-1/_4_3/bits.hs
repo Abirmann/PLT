@@ -39,7 +39,8 @@ add (Z s1 b1) (Z s2 b2)
         addBitWithCarry One Zero Zero = (One, Zero)
         addBitWithCarry Zero One One = (Zero, One)
         addBitWithCarry Zero One Zero = (One, Zero)
-        addBitWithCarry Zero Zero c = (Zero, c)
+        addBitWithCarry Zero Zero One = (One, Zero)
+        addBitWithCarry Zero Zero Zero = (Zero, Zero)
 
 
 mul :: Z -> Z -> Z
