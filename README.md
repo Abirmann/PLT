@@ -30,10 +30,10 @@ Theory (books and lecture series)
 
 Theory (papers and articles)
 
-- [ ] [Why Functional Programming Matters](https://www.cs.kent.ac.uk/people/staff/dat/miranda/whyfp90.pdf)
-- [ ] [Conception, Evolution, and Application of Functional Programming Languages](https://dl.acm.org/doi/pdf/10.1145/72551.72554)
-- [ ] [On Understanding Types, Data Abstraction, and Polymorphism](http://lucacardelli.name/Papers/OnUnderstanding.A4.pdf)
-- [ ] [How to make ad-hoc polymorphism less ad hoc](https://dl.acm.org/doi/pdf/10.1145/75277.75283)
-- [ ] [Software Extension and Integration with Type Classes](https://www.informatik.uni-marburg.de/~kos/papers/gpce06.pdf)
-- [ ] [Data Abstraction and Hierarchy](https://www.cs.tufts.edu/~nr/cs257/archive/barbara-liskov/data-abstraction-and-hierarchy.pdf)
-- [ ] [Should ML be Object-Oriented](https://www.researchgate.net/publication/220102200_Should_ML_be_Object-Oriented) - много ссылок на фундаментальные статьи
+- [ ] Why Functional Programming Matters
+- [ ] Conception, Evolution, and Application of Functional Programming Languages
+- [ ] On Understanding Types, Data Abstraction, and Polymorphism
+- [ ] How to make ad-hoc polymorphism less ad hoc
+- [ ] Software Extension and Integration with Type Classes
+- [ ] Data Abstraction and Hierarchy
+- [ ] Should ML be Object-Oriented - много ссылок на фундаментальные статьи
