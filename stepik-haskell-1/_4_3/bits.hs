@@ -11,8 +11,10 @@ data Z = Z Sign [Bit]    deriving (Read, Show)
 
 add :: Z -> Z -> Z
 add (Z s1 b1) (Z s2 b2)
-    | s1 == s2  = Z s1 $ sameSignBitsAdd b1 b2 Zero
-    | otherwise = undefined
+    | s1 == s2    = Z s1 $ sameSignBitsAdd b1 b2 Zero
+    | s1 == Minus = Z s1 $ sameSignBitsAdd (map invert b1) b2 Zero
+    -- нужно добавить нули в старшие разряды до второго и определять знак по последнему биту
+    | s2 == Minus = Z s2 $ sameSignBitsAdd b1 (map invert b2) Zero
     where
         sameSignBitsAdd [] [] Zero = []
         sameSignBitsAdd [] [] One = [One]
@@ -32,6 +34,9 @@ add (Z s1 b1) (Z s2 b2)
                 r = fst $ addBitWithCarry b1 b2 prevC 
                 c = snd $ addBitWithCarry b1 b2 prevC
 
+        
+        
+
         addBitWithCarry :: Bit -> Bit -> Bit -> (Bit, Bit)
         addBitWithCarry One One One = (One, One)
         addBitWithCarry One One Zero = (Zero, One)
@@ -41,7 +46,10 @@ add (Z s1 b1) (Z s2 b2)
         addBitWithCarry Zero One Zero = (One, Zero)
         addBitWithCarry Zero Zero One = (One, Zero)
         addBitWithCarry Zero Zero Zero = (Zero, Zero)
-
+       
+        invert :: Bit -> Bit
+        invert Zero = One
+        invert One = Zero
 
 mul :: Z -> Z -> Z
 mul = undefined
