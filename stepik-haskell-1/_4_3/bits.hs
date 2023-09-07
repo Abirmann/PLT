@@ -12,9 +12,10 @@ data Z = Z Sign [Bit]    deriving (Read, Show)
 add :: Z -> Z -> Z
 add (Z s1 b1) (Z s2 b2)
     | s1 == s2    = Z s1 $ sameSignBitsAdd (normalize (b1,b2)) Zero
-    -- TODO
-    -- | s1 == Minus = Z s1 $ sameSignBitsAdd (map invert b1) b2 Zero
-    -- | s2 == Minus = Z s2 $ sameSignBitsAdd b1 (map invert b2) Zero
+
+    -- TODO - инвертирование нормализованного значения и решение о знаке по последнему разряду
+    -- | s1 == Minus = Z s1 $ sameSignBitsAdd (normalize (b1,b2)) Zero 
+    -- | s2 == Minus = Z s2 $ sameSignBitsAdd (normalize (b1,b2)) Zero 
     where
         sameSignBitsAdd ([],[]) Zero = []
         sameSignBitsAdd ([],[]) One = [One]
@@ -23,15 +24,15 @@ add (Z s1 b1) (Z s2 b2)
                 r = fst $ addBitWithCarry b1 b2 prevC 
                 c = snd $ addBitWithCarry b1 b2 prevC
 
-        addBitWithCarry :: Bit -> Bit -> Bit -> (Bit, Bit)
-        addBitWithCarry One One One = (One, One)
-        addBitWithCarry One One Zero = (Zero, One)
-        addBitWithCarry One Zero One = (Zero, One)
-        addBitWithCarry One Zero Zero = (One, Zero)
-        addBitWithCarry Zero One One = (Zero, One)
-        addBitWithCarry Zero One Zero = (One, Zero)
-        addBitWithCarry Zero Zero One = (One, Zero)
-        addBitWithCarry Zero Zero Zero = (Zero, Zero)
+addBitWithCarry :: Bit -> Bit -> Bit -> (Bit, Bit)
+addBitWithCarry One One One = (One, One)
+addBitWithCarry One One Zero = (Zero, One)
+addBitWithCarry One Zero One = (Zero, One)
+addBitWithCarry One Zero Zero = (One, Zero)
+addBitWithCarry Zero One One = (Zero, One)
+addBitWithCarry Zero One Zero = (One, Zero)
+addBitWithCarry Zero Zero One = (One, Zero)
+addBitWithCarry Zero Zero Zero = (Zero, Zero)
        
 invert :: Bit -> Bit
 invert Zero = One
