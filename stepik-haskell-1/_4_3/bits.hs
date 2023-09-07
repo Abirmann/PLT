@@ -18,10 +18,10 @@ add (Z s1 b1) (Z s2 b2)
     where
         sameSignBitsAdd ([],[]) Zero = []
         sameSignBitsAdd ([],[]) One = [One]
-        sameSignBitsAdd ((b1:b1s),(b2:b2s)) prevC = r : (sameSignBitsAdd (b1s,b2s) c)
+        sameSignBitsAdd ((b1:b1s),(b2:b2s)) prevC = (fst addCarry) : (sameSignBitsAdd (b1s,b2s) (snd addCarry))
             where 
-                r = fst $ addBitWithCarry b1 b2 prevC 
-                c = snd $ addBitWithCarry b1 b2 prevC
+                -- TODO придумать другое название
+                addCarry = addBitWithCarry b1 b2 prevC
 
 addBitWithCarry :: Bit -> Bit -> Bit -> (Bit, Bit)
 addBitWithCarry One One One = (One, One)
