@@ -11,31 +11,17 @@ data Z = Z Sign [Bit]    deriving (Read, Show)
 
 add :: Z -> Z -> Z
 add (Z s1 b1) (Z s2 b2)
-    | s1 == s2    = Z s1 $ sameSignBitsAdd b1 b2 Zero
-    | s1 == Minus = Z s1 $ sameSignBitsAdd (map invert b1) b2 Zero
-    -- нужно добавить нули в старшие разряды до второго и определять знак по последнему биту
-    | s2 == Minus = Z s2 $ sameSignBitsAdd b1 (map invert b2) Zero
+    | s1 == s2    = Z s1 $ sameSignBitsAdd (normalize (b1,b2)) Zero
+    -- TODO
+    -- | s1 == Minus = Z s1 $ sameSignBitsAdd (map invert b1) b2 Zero
+    -- | s2 == Minus = Z s2 $ sameSignBitsAdd b1 (map invert b2) Zero
     where
-        sameSignBitsAdd [] [] Zero = []
-        sameSignBitsAdd [] [] One = [One]
-
-        sameSignBitsAdd (b:bs) [] prevC = r : (sameSignBitsAdd bs [] c) 
-            where
-                r = fst $ addBitWithCarry b prevC Zero 
-                c = snd $ addBitWithCarry b prevC Zero
-
-        sameSignBitsAdd [] (b:bs) prevC = r : (sameSignBitsAdd bs [] c)
-            where
-                r = fst $ addBitWithCarry b prevC Zero 
-                c = snd $ addBitWithCarry b prevC Zero
-
-        sameSignBitsAdd (b1:b1s) (b2:b2s) prevC = r : (sameSignBitsAdd b1s b2s c)
+        sameSignBitsAdd ([],[]) Zero = []
+        sameSignBitsAdd ([],[]) One = [One]
+        sameSignBitsAdd ((b1:b1s),(b2:b2s)) prevC = r : (sameSignBitsAdd (b1s,b2s) c)
             where 
                 r = fst $ addBitWithCarry b1 b2 prevC 
                 c = snd $ addBitWithCarry b1 b2 prevC
-
-        
-        
 
         addBitWithCarry :: Bit -> Bit -> Bit -> (Bit, Bit)
         addBitWithCarry One One One = (One, One)
@@ -47,9 +33,18 @@ add (Z s1 b1) (Z s2 b2)
         addBitWithCarry Zero Zero One = (One, Zero)
         addBitWithCarry Zero Zero Zero = (Zero, Zero)
        
-        invert :: Bit -> Bit
-        invert Zero = One
-        invert One = Zero
+invert :: Bit -> Bit
+invert Zero = One
+invert One = Zero
+          
+normalize = unzip . (uncurry norm)
+    where
+        norm [] [] = []
+        norm [] (x:xs) = (Zero,x) : norm [] xs
+        norm (x:xs) [] = (x,Zero) : norm xs []
+        norm (a:as) (b:bs) = (a,b) : norm as bs
+
+
 
 mul :: Z -> Z -> Z
 mul = undefined
