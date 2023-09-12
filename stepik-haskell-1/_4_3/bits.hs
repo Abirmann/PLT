@@ -4,38 +4,52 @@
 -- that lower bits come first in the list and higher buts come last.
 -- You can assume that input cannot have numbers with leading zeroes.
 
-data Bit = Zero | One    deriving (Read, Show)
+data Bit = Zero | One    deriving (Read, Show, Eq)
 data Sign = Minus | Plus deriving (Read, Show, Eq)
-data Z = Z Sign [Bit]    deriving (Read, Show)
+data Z = Z Sign [Bit]    deriving (Read, Show, Eq)
 
 
 add :: Z -> Z -> Z
 add (Z s1 b1) (Z s2 b2)
     | s1 == s2    = Z s1 $ sameSignBitsAdd (normalize (b1,b2)) Zero
-    -- TODO - решение о знаке по последнему разряду
-    | s1 == Minus = Z s1 $ sameSignBitsAdd ((\(a,b) -> (a, map invert b)) $ normalize (b1,b2)) Zero 
-    | s2 == Minus = Z s2 $ sameSignBitsAdd ((\(a,b) -> (map invert a, b)) $ normalize (b1,b2)) Zero 
+    -- TODO определять знак по доп. разряду 
+    | otherwise = Z s1 $ diffSignBitsAdd (normalize (b1,b2)) Zero
     where
         sameSignBitsAdd ([],[]) Zero = []
         sameSignBitsAdd ([],[]) One = [One]
-        sameSignBitsAdd ((b1:b1s),(b2:b2s)) prevC = (fst addCarry) : (sameSignBitsAdd (b1s,b2s) (snd addCarry))
+        sameSignBitsAdd ((b1:b1s),(b2:b2s)) prevC = (fst resultAndCarry) : (sameSignBitsAdd (b1s,b2s) (snd resultAndCarry))
             where 
-                -- TODO придумать другое название
-                addCarry = addBitWithCarry b1 b2 prevC
+                resultAndCarry = addBitsWithCarry b1 b2 prevC
 
-addBitWithCarry :: Bit -> Bit -> Bit -> (Bit, Bit)
-addBitWithCarry One One One = (One, One)
-addBitWithCarry One One Zero = (Zero, One)
-addBitWithCarry One Zero One = (Zero, One)
-addBitWithCarry One Zero Zero = (One, Zero)
-addBitWithCarry Zero One One = (Zero, One)
-addBitWithCarry Zero One Zero = (One, Zero)
-addBitWithCarry Zero Zero One = (One, Zero)
-addBitWithCarry Zero Zero Zero = (Zero, Zero)
+        diffSignBitsAdd ([],[]) Zero = []
+        diffSignBitsAdd ([],[]) One = [One]
+        diffSignBitsAdd ((b1:b1s),(b2:b2s)) prevC = (fst resultAndBorrow) : (diffSignBitsAdd (b1s,b2s) (snd resultAndBorrow))
+            where 
+                resultAndBorrow = substractBitsWithBorrow b1 b2 prevC
+
+addBitsWithCarry :: Bit -> Bit -> Bit -> (Bit, Bit)
+addBitsWithCarry a1 a2 c = 
+    case (a1,a2,c) of
+        (One,One,One)    -> (One, One)
+        (One,One,Zero)   -> (Zero, One)
+        (One,Zero,One)   -> (Zero, One)
+        (One,Zero,Zero)  -> (One, Zero)
+        (Zero,One,One)   -> (Zero, One)
+        (Zero,One,Zero)  -> (One, Zero)
+        (Zero,Zero,One)  -> (One, Zero)
+        (Zero,Zero,Zero) -> (Zero, Zero)
        
-invert :: Bit -> Bit
-invert Zero = One
-invert One = Zero
+substractBitsWithBorrow :: Bit -> Bit -> Bit -> (Bit, Bit)
+substractBitsWithBorrow a1 a2 c = 
+    case (a1,a2,c) of
+        (One,One,One)    -> (One,One) 
+        (One,One,Zero)   -> (Zero,Zero)
+        (One,Zero,One)   -> (Zero,Zero)
+        (One,Zero,Zero)  -> (One, Zero)
+        (Zero,One,One)   -> (Zero, One)
+        (Zero,One,Zero)  -> (One, One)        
+        (Zero,Zero,One)  -> (One, One)
+        (Zero,Zero,Zero) -> (Zero, Zero)
           
 normalize = unzip . (uncurry norm)
     where
