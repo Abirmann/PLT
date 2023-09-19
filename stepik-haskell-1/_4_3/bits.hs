@@ -24,58 +24,67 @@ compBits (b1:b1s) (b2:b2s)
         | b1 > b2   = GT
         | otherwise = LT 
   
-
-
 add :: Z -> Z -> Z
 add (Z s1 b1) (Z s2 b2)
-    | s1 == s2 = Z s1 $ sameSignBitsAdd (normalize (b1,b2)) Zero
+    | s1 == s2 = Z s1 $ sameSignBitsAdd Zero (normalize (b1,b2)) 
     | b1 == b2 = Z Plus []
-    | (compBits b1 b2) == GT  = Z s1 $ diffSignBitsAdd (normalize (b1,b2)) Zero
+    | (compBits b1 b2) == GT  = Z s1 $ diffSignBitsAdd Zero (normalize (b1,b2)) 
     -- не оптимально дважды разворачивать список ради удаления нулей
-    | (compBits b1 b2) == LT  = Z s2 $ (reverse . dropWhile (== Zero) . reverse) (diffSignBitsAdd (normalize (b2,b1)) Zero)
-        where 
-            sameSignBitsAdd ([],[]) Zero = []
-            sameSignBitsAdd ([],[]) One = [One]
-            sameSignBitsAdd ((b1:b1s),(b2:b2s)) prevC = (fst resultAndCarry) : (sameSignBitsAdd (b1s,b2s) (snd resultAndCarry))
-                where 
-                    resultAndCarry = addBitsWithCarry b1 b2 prevC
+    | (compBits b1 b2) == LT  = Z s2 $ (reverse . dropWhile (== Zero) . reverse) (diffSignBitsAdd Zero (normalize (b2,b1)))
+         
+sameSignBitsAdd Zero ([],[]) = []
+sameSignBitsAdd One ([],[]) = [One]
+sameSignBitsAdd prevC ((b1:b1s),(b2:b2s)) = (fst resultAndCarry) : (sameSignBitsAdd (snd resultAndCarry) (b1s,b2s))
+    where 
+        resultAndCarry = addBitsWithCarry prevC b1 b2 
 
-            diffSignBitsAdd ([],[]) extra = []
-            diffSignBitsAdd ((b1:b1s),(b2:b2s)) prevC = (fst resultAndBorrow) : (diffSignBitsAdd (b1s,b2s) (snd resultAndBorrow))
-                where 
-                    resultAndBorrow = substractBitsWithBorrow b1 b2 prevC
+diffSignBitsAdd extra ([],[]) = []
+diffSignBitsAdd prevC ((b1:b1s),(b2:b2s)) = (fst resultAndBorrow) : (diffSignBitsAdd (snd resultAndBorrow) (b1s,b2s))
+    where 
+        resultAndBorrow = substractBitsWithBorrow prevC b1 b2 
 
-            addBitsWithCarry :: Bit -> Bit -> Bit -> (Bit, Bit)
-            addBitsWithCarry a1 a2 c = 
-                case (a1,a2,c) of
-                    (One,One,One)    -> (One, One)
-                    (One,One,Zero)   -> (Zero, One)
-                    (One,Zero,One)   -> (Zero, One)
-                    (One,Zero,Zero)  -> (One, Zero)
-                    (Zero,One,One)   -> (Zero, One)
-                    (Zero,One,Zero)  -> (One, Zero)
-                    (Zero,Zero,One)  -> (One, Zero)
-                    (Zero,Zero,Zero) -> (Zero, Zero)
-           
-            substractBitsWithBorrow :: Bit -> Bit -> Bit -> (Bit, Bit)
-            substractBitsWithBorrow a1 a2 c = 
-                case (a1,a2,c) of
-                    (One,One,One)    -> (One,One) 
-                    (One,One,Zero)   -> (Zero,Zero)
-                    (One,Zero,One)   -> (Zero,Zero)
-                    (One,Zero,Zero)  -> (One, Zero)
-                    (Zero,One,One)   -> (Zero, One)
-                    (Zero,One,Zero)  -> (One, One)        
-                    (Zero,Zero,One)  -> (One, One)
-                    (Zero,Zero,Zero) -> (Zero, Zero)
-              
-            normalize = unzip . (uncurry norm)
-                where
-                    norm [] [] = []
-                    norm [] (x:xs) = (Zero,x) : norm [] xs
-                    norm (x:xs) [] = (x,Zero) : norm xs []
-                    norm (a:as) (b:bs) = (a,b) : norm as bs
-    
+addBitsWithCarry :: Bit -> Bit -> Bit -> (Bit, Bit)
+addBitsWithCarry a1 a2 c = 
+    case (a1,a2,c) of
+        (One,One,One)    -> (One, One)
+        (One,One,Zero)   -> (Zero, One)
+        (One,Zero,One)   -> (Zero, One)
+        (One,Zero,Zero)  -> (One, Zero)
+        (Zero,One,One)   -> (Zero, One)
+        (Zero,One,Zero)  -> (One, Zero)
+        (Zero,Zero,One)  -> (One, Zero)
+        (Zero,Zero,Zero) -> (Zero, Zero)
 
+substractBitsWithBorrow :: Bit -> Bit -> Bit -> (Bit, Bit)
+substractBitsWithBorrow a1 a2 c = 
+    case (a1,a2,c) of
+        (One,One,One)    -> (One,One) 
+        (One,One,Zero)   -> (Zero,Zero)
+        (One,Zero,One)   -> (Zero,Zero)
+        (One,Zero,Zero)  -> (One, Zero)
+        (Zero,One,One)   -> (Zero, One)
+        (Zero,One,Zero)  -> (One, One)        
+        (Zero,Zero,One)  -> (One, One)
+        (Zero,Zero,Zero) -> (Zero, Zero)
+  
+normalize = unzip . (uncurry norm)
+    where
+        norm [] [] = []
+        norm [] (x:xs) = (Zero,x) : norm [] xs
+        norm (x:xs) [] = (x,Zero) : norm xs []
+        norm (a:as) (b:bs) = (a,b) : norm as bs
+   
 mul :: Z -> Z -> Z
-mul = undefined
+mul (Z s1 b1) (Z s2 b2) 
+    | b1 == [] || b2 == [] = Z Plus []
+    | s1 == s2  = Z Plus bits
+    | otherwise = Z Minus bits
+    where
+        bits = foldr (\x y -> sameSignBitsAdd Zero (normalize (x,y))) [] $ partialProducts b1 b2 
+        
+        partialProducts :: [Bit] -> [Bit] -> [[Bit]]
+        partialProducts [] _ = [[]]
+        partialProducts (b1:b1s) b2 =
+            case b1 of
+                One  -> b2 : partialProducts b1s (Zero : b2)
+                Zero -> partialProducts b1s (Zero : b2)
