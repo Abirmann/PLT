@@ -26,22 +26,22 @@ compBits (b1:b1s) (b2:b2s)
   
 add :: Z -> Z -> Z
 add (Z s1 b1) (Z s2 b2)
-    | s1 == s2 = Z s1 $ sameSignBitsAdd Zero (normalize (b1,b2)) 
+    | s1 == s2 = Z s1 $ sameSignBitsAdd (normalize (b1,b2)) Zero 
     | b1 == b2 = Z Plus []
-    | (compBits b1 b2) == GT  = Z s1 $ diffSignBitsAdd Zero (normalize (b1,b2)) 
+    | (compBits b1 b2) == GT  = Z s1 $ diffSignBitsAdd (normalize (b1,b2)) Zero 
     -- не оптимально дважды разворачивать список ради удаления нулей
-    | (compBits b1 b2) == LT  = Z s2 $ (reverse . dropWhile (== Zero) . reverse) (diffSignBitsAdd Zero (normalize (b2,b1)))
+    | (compBits b1 b2) == LT  = Z s2 $ (reverse . dropWhile (== Zero) . reverse) (diffSignBitsAdd (normalize (b2,b1)) Zero)
          
-sameSignBitsAdd Zero ([],[]) = []
-sameSignBitsAdd One ([],[]) = [One]
-sameSignBitsAdd prevC ((b1:b1s),(b2:b2s)) = (fst resultAndCarry) : (sameSignBitsAdd (snd resultAndCarry) (b1s,b2s))
+sameSignBitsAdd ([],[]) Zero = []
+sameSignBitsAdd ([],[]) One = [One]
+sameSignBitsAdd ((b1:b1s),(b2:b2s)) prevC = (fst resultAndCarry) : (sameSignBitsAdd (b1s,b2s) (snd resultAndCarry))
     where 
-        resultAndCarry = addBitsWithCarry prevC b1 b2 
+        resultAndCarry = addBitsWithCarry b1 b2 prevC 
 
-diffSignBitsAdd extra ([],[]) = []
-diffSignBitsAdd prevC ((b1:b1s),(b2:b2s)) = (fst resultAndBorrow) : (diffSignBitsAdd (snd resultAndBorrow) (b1s,b2s))
+diffSignBitsAdd ([],[]) extra = []
+diffSignBitsAdd ((b1:b1s),(b2:b2s)) prevC = (fst resultAndBorrow) : (diffSignBitsAdd (b1s,b2s) (snd resultAndBorrow))
     where 
-        resultAndBorrow = substractBitsWithBorrow prevC b1 b2 
+        resultAndBorrow = substractBitsWithBorrow b1 b2 prevC 
 
 addBitsWithCarry :: Bit -> Bit -> Bit -> (Bit, Bit)
 addBitsWithCarry a1 a2 c = 
@@ -80,7 +80,7 @@ mul (Z s1 b1) (Z s2 b2)
     | s1 == s2  = Z Plus bits
     | otherwise = Z Minus bits
     where
-        bits = foldr (\x y -> sameSignBitsAdd Zero (normalize (x,y))) [] $ partialProducts b1 b2 
+        bits = foldr (\x y -> sameSignBitsAdd (normalize (x,y)) Zero) [] $ partialProducts b1 b2 
         
         partialProducts :: [Bit] -> [Bit] -> [[Bit]]
         partialProducts [] _ = [[]]
