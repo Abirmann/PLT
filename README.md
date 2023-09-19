@@ -30,6 +30,7 @@ Theory (books and lecture series)
 
 Theory (papers and articles)
 
+- [ ] All About Monads - extremely informative and useful
 - [ ] Why Functional Programming Matters
 - [ ] Conception, Evolution, and Application of Functional Programming Languages
 - [ ] On Understanding Types, Data Abstraction, and Polymorphism
