@@ -1,4 +1,8 @@
 
+**Programming Language Theory** - is the most interesting branch of Computer Science for me. Because the expressivness of language - of natural, and programming, and formal, and others - is beautiful in itself and allows us to say, and to create, and to save something meaningful.
+
+Helpful resources collected here for study sub-disciplines of PLT, such as Formal Semantics, Type Theory, Category Theory (from programmer perspective), Lambda Calculus and Compiler Construction.
+
 Practice
 - [ ] (**in progress**) Stepik - Функциональное программирование на языке Haskell
 - [ ] 99 Haskell Problems
