@@ -34,11 +34,12 @@ Theory (books and lecture series)
 
 Theory (papers and articles)
 
-- [ ] All About Monads - extremely informative and useful
 - [ ] Why Functional Programming Matters
+- [ ] Can Programming Be Liberated from the von Neumann Style? A Functional Style and Its Algebra of Programs
 - [ ] Conception, Evolution, and Application of Functional Programming Languages
 - [ ] On Understanding Types, Data Abstraction, and Polymorphism
 - [ ] How to make ad-hoc polymorphism less ad hoc
 - [ ] Software Extension and Integration with Type Classes
 - [ ] Data Abstraction and Hierarchy
 - [ ] Should ML be Object-Oriented - много ссылок на фундаментальные статьи
+- [ ] All About Monads - extremely informative and useful
