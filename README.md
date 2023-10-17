@@ -1,14 +1,13 @@
 
-**Programming Language Theory** - is the most interesting branch of Computer Science for me. Because the expressivness of language - of natural, and programming, and formal, and others - is beautiful in itself and allows us to say, and to create, and to save something meaningful.
+Hi there, I am learning **Programming Language Theory**.
 
-Helpful resources collected here for study sub-disciplines of PLT, such as Formal Semantics, Type Theory, Category Theory (from programmer perspective), Lambda Calculus and Compiler Construction.
+Helpful resources collected here for study sub-disciplines of PLT, such as Lambda Calculus, Type Theory, Category Theory (from programmer perspective), Formal Semantics and Compiler Construction.
 
 Practice
 - [ ] (**in progress**) Stepik - Функциональное программирование на языке Haskell
 - [ ] 99 Haskell Problems
 - [ ] Haskell exercises on Exercism (90 problems)
 - [ ] Каты на Codewars
-- [ ] Телеграмм бот для сбора ежедневной статистики
 - [ ] Stepik - Функциональное программирование на языке Haskell часть 2
 - [ ] github applyed-fp-course (for those who want to know how to build larger applications with FP)
 - [ ] Write yourself a Scheme in 48 hours
@@ -16,8 +15,8 @@ Practice
  
 ---
 
-Theory (books and lecture series)
-- [ ] Benjamin C. Pierce, Types and Programming Languages (haskell impls -> https://github.com/zerokarmaleft/tapl-haskell)
+Books and lecture series
+- [ ] (**in progress**)Benjamin C. Pierce, Types and Programming Languages (haskell impls -> https://github.com/zerokarmaleft/tapl-haskell)
 - [ ] Benjamin C. Pierce, Advanced Topics in Types and Programming
 - [ ] Herman Geuvers, Introduction to Type Theory
 - [ ] Учебник по Haskell
@@ -32,8 +31,7 @@ Theory (books and lecture series)
 
 ---
 
-Theory (papers and articles)
-
+Papers and articles
 - [ ] Why Functional Programming Matters
 - [ ] Can Programming Be Liberated from the von Neumann Style? A Functional Style and Its Algebra of Programs
 - [ ] Conception, Evolution, and Application of Functional Programming Languages
