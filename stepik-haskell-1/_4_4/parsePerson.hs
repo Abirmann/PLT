@@ -4,15 +4,15 @@ data Person = Person { firstName :: String, lastName :: String, age :: Int }
 
 parsePerson :: String -> Either Error Person
 parsePerson string 
-    | hasWrongFormat fields = Left ParsongError
-    | size fields < 3        = Left IncompleteDataError 
+    | hasWrongFormat fields = Left ParsingError
+    | length fields < 3        = Left IncompleteDataError 
     -- дополнить кейсы - расписать сначала гарды, и лишь потом приступать к реализации функций  
     where
         fields = splitOn '\n' string
         hasWrongFormat fields = undefined
 
-splitOn delimiter = foldr merge [[]] 
+splitOn delimiter = foldr collect [[]] 
     where
-        merge c rest@(l:ls) 
-            | c == delimiter = [] : (rest) 
-            | c /= delimiter = (c : l) : ls
+        collect char all@(current:completed) 
+            | char == delimiter  = [] : all 
+            | char /= delimiter  = (char : current) : completed 
